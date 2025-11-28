@@ -1,0 +1,56 @@
+#include<iostream>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> bfsOfGraph(int V, vector<int> adj[]) { // no.of nodes,adjcency list
+
+        vector<int> vis(V, 0);   // visited array
+        vector<int> bfs;         // final BFS result
+        queue<int> q;
+
+        vis[0] = 1;              // start BFS from node 0
+        q.push(0);
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            bfs.push_back(node);
+
+            // explore(travel) neighbors of current node
+            for (auto it : adj[node]) {
+                if (!vis[it]) {
+                    vis[it] = 1;
+                    q.push(it);
+                }
+            }
+        }
+
+        return bfs;
+    }
+};
+
+int main() {
+    int V, E;
+    cin >> V >> E;
+
+    vector<int> adj[V];
+
+    // input edges
+    for (int i = 0; i < E; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);     // directed graph (GFG format)
+        adj[v].push_back(u);     // add this only for undirected graph
+    }
+
+    Solution obj;
+    vector<int> ans = obj.bfsOfGraph(V, adj);
+
+    // print BFS result
+    for (int x : ans)
+        cout << x << " ";
+
+    return 0;
+}
